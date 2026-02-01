@@ -17,7 +17,7 @@ function saveTransactions() {
 
 function render() {
     list.innerHTML = '';
-    
+
     let totalIncome = 0;
     let totalExpense = 0;
 
@@ -25,13 +25,13 @@ function render() {
         const amount = Number(transaction.amount);
 
         if (transaction.type === 'income') {
-            totalIncome += amount;
+            totalIncome = amount + totalIncome;
         } else {
-            totalExpense += amount;
+            totalExpense = amount + totalExpense;
         }
 
         const li = document.createElement('li');
-        
+
         if (transaction.type === 'income') {
             li.classList.add('plus');
         } else {
@@ -48,9 +48,9 @@ function render() {
                 <button class="delete-btn" onclick="deleteItem(${index})">X</button>
             </div>
         `;
-        
+
         li.addEventListener('dblclick', () => {
-             editItem(index);
+            editItem(index);
         });
 
         list.appendChild(li);
@@ -79,7 +79,7 @@ function addTransaction(e) {
     transactions.push(newTransaction);
     saveTransactions();
     render();
-    
+
     descInput.value = '';
     amountInput.value = '';
 }
@@ -92,13 +92,13 @@ function deleteItem(index) {
 
 function editItem(index) {
     const item = transactions[index];
-    
+
     descInput.value = item.description;
     amountInput.value = item.amount;
     categoryInput.value = item.category;
     typeInput.value = item.type;
 
-    deleteItem(index); 
+    deleteItem(index);
 }
 
 form.addEventListener('submit', addTransaction);
